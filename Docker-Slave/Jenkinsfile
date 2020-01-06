@@ -1,0 +1,16 @@
+node('TestMachine-ut') {
+    stage('preapring containers'){
+        sh 'apt-get update && apt-get install git'
+        sh 'git fetch https://github.com/mms-cv/ci-cd-project.git && git checkout FETCH_HEAD -- docker-compose.yml'
+        sh 'ls'
+    }
+    stage ('Code analyse') {
+        sh 'echo "hello"'
+    }
+    stage ('Unit test') {
+        sh 'echo "Tests will back"'
+    }
+    stage ('Build') {
+        sh 'echo "Building"'
+    }
+}
