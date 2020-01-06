@@ -2,11 +2,14 @@ node('TestMachine-ut') {
     stage('Updating Slave Container'){
         sh 'apt-get update && apt-get install git'
     }
+    stage('logging into harbor'){
+        sh 'docker login harbor.this'
+    }
     stage ('Fetching Docker-Compose File') {
-        sh 'cd /tmp && wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
+        sh 'mkdir wordpress && cd wordpress && wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
     }
     stage ('Docker Compose UP') {
-        sh 'cd /tmp && docker-compose up -d'
+        sh 'docker-compose up -d'
     }
     stage ('Unitesting') {
         sh 'echo "Building"'
