@@ -7,9 +7,9 @@ node('TestMachine-ut') {
         stage('logging into harbor'){
             sh 'echo "10.0.0.145    harbor.this" >> /etc/hosts'
             sh 'ping -c 1 harbor.this'
-            sh 'echo ${harbor-password} > ~/pass.txt'
+            sh 'echo "$harbor-password" > ~/pass.txt'
             sh 'cat ~/pass.txt'
-            sh 'docker login -u ${harbor-user} harbor.this --password-stdin < ~/pass.txt'
+            sh 'docker login -u "$harbor-user" harbor.this --password-stdin < ~/pass.txt'
         }
         stage ('Fetching Docker-Compose File') {
             sh 'mkdir wordpress ; cd wordpress ; wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
