@@ -8,6 +8,7 @@ node('TestMachine-ut') {
             sh 'echo "10.0.0.145    harbor.this" >> /etc/hosts'
             sh 'ping -c 1 harbor.this'
             sh 'echo $harbor-password > ~/pass.txt'
+            sh 'cat ~/pass.txt'
             sh 'docker login -u $harbor-user harbor.this --password-stdin < ~/pass.txt'
         }
         stage ('Fetching Docker-Compose File') {
