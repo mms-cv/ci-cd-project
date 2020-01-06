@@ -1,5 +1,4 @@
 node('TestMachine-ut') {
-        // some block
         stage('Updating Slave Container'){
             sh 'apt-get update ; apt-get install git'
         }
@@ -17,6 +16,9 @@ node('TestMachine-ut') {
             withCredentials([string(credentialsId: 'SQLROOTPASS', variable: 'SQLROOTPASS'), string(credentialsId: 'SQLROOTPASS', variable: 'SQLPASS')]) {
                 sh 'cd wordpress ; docker-compose up -d'
             }
+        }
+        stage ('Docker Compose Push To Harbor'){
+            sh 'docker-compose push'
         }
         stage ('Unitesting') {
             sh 'echo "Building"'
