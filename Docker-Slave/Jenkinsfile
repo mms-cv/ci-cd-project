@@ -6,7 +6,7 @@ node('TestMachine-ut') {
         sh 'cd /tmp/ && wget https://github.com/mms-cv/ci-cd-project/blob/master/docker-compose.yml'
     }
     stage ('Docker Compose UP') {
-        sh 'docker-compose up -d"'
+        sh 'cd /tmp/ && docker-compose up -d"'
     }
     stage ('Unitesting') {
         sh 'echo "Building"'
