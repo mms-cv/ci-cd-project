@@ -1,16 +1,14 @@
 node('TestMachine-ut') {
-    stage('preapring containers'){
+    stage('Updating Slave Container'){
         sh 'apt-get update && apt-get install git'
-        sh 'git fetch https://github.com/mms-cv/ci-cd-project.git && git checkout FETCH_HEAD -- docker-compose.yml'
-        sh 'ls'
     }
-    stage ('Code analyse') {
-        sh 'echo "hello"'
+    stage ('Fetching Docker-Compose File') {
+        sh 'cd /tmp/ && wget https://github.com/mms-cv/ci-cd-project/blob/master/docker-compose.yml'
     }
-    stage ('Unit test') {
-        sh 'echo "Tests will back"'
+    stage ('Docker Compose UP') {
+        sh 'docker-compose up -d"'
     }
-    stage ('Build') {
+    stage ('Unitesting') {
         sh 'echo "Building"'
     }
 }
