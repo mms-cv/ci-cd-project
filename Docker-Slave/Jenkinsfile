@@ -1,5 +1,4 @@
 node('TestMachine-ut') {
-    withCredentials([usernamePassword(credentialsId: 'harbor-sec', passwordVariable: 'HPASS', usernameVariable: 'HUSER')]) {
         // some block
         stage('Updating Slave Container'){
             sh 'apt-get update ; apt-get install git'
