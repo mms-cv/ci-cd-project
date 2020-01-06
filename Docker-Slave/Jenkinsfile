@@ -3,7 +3,8 @@ node('TestMachine-ut') {
         sh 'apt-get update ; apt-get install git'
     }
     stage('logging into harbor'){
-        sh 'echo "hello"'
+        sh 'echo "10.0.0.145    harbor.this" >> /etc/hosts'
+        sh 'ping -c 1 harbor.this'
     }
     stage ('Fetching Docker-Compose File') {
         sh 'mkdir wordpress ; cd wordpress ; wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
