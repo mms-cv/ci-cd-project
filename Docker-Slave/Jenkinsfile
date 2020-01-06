@@ -1,15 +1,15 @@
 node('TestMachine-ut') {
     stage('Updating Slave Container'){
-        sh 'apt-get update && apt-get install git'
+        sh 'apt-get update ; apt-get install git'
     }
     stage('logging into harbor'){
         sh 'echo "hello"'
     }
     stage ('Fetching Docker-Compose File') {
-        sh 'mkdir wordpress && cd wordpress && wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
+        sh 'mkdir wordpress ; cd wordpress ; wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
     }
     stage ('Docker Compose UP') {
-        sh 'docker-compose up -d'
+        sh 'cd wordpress ; docker-compose up -d'
     }
     stage ('Unitesting') {
         sh 'echo "Building"'
