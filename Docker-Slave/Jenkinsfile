@@ -3,10 +3,10 @@ node('TestMachine-ut') {
         sh 'apt-get update && apt-get install git'
     }
     stage ('Fetching Docker-Compose File') {
-        sh 'cd /tmp/ && wget https://github.com/mms-cv/ci-cd-project/blob/master/docker-compose.yml'
+        sh 'wget https://github.com/mms-cv/ci-cd-project/blob/master/docker-compose.yml'
     }
     stage ('Docker Compose UP') {
-        sh 'ls'
+        sh 'docker-compose up -d'
     }
     stage ('Unitesting') {
         sh 'echo "Building"'
