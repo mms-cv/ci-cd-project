@@ -6,9 +6,7 @@ node('TestMachine-ut') {
         stage('logging into harbor'){
             withCredentials([usernamePassword(credentialsId: 'harbor-sec', passwordVariable: 'HPASS', usernameVariable: 'HUSER')]) {
                 sh 'echo "10.0.0.145    harbor.this" >> /etc/hosts'
-                sh 'ping -c 1 harbor.this'
                 sh 'echo $HPASS > ~/pass.txt'
-                sh 'cat ~/pass.txt'
                 sh 'docker login -u $HUSER harbor.this --password-stdin < ~/pass.txt'
             }
         }
@@ -17,8 +15,6 @@ node('TestMachine-ut') {
         }
         stage ('Docker Compose UP') {
             withCredentials([string(credentialsId: 'SQLROOTPASS', variable: 'SQLROOTPASS'), string(credentialsId: 'SQLROOTPASS', variable: 'SQLPASS')]) {
-                sh 'export sqlpass=$SQLROOTPASS'
-                sh 'echo $sqlpass'
                 sh 'cd wordpress ; docker-compose up -d'
             }
         }
