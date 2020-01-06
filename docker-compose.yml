@@ -7,8 +7,6 @@ services:
      volumes:
        - db_data:/var/lib/mysql
      restart: always
-     expose:
-      - "3306"
      environment:
        MYSQL_ROOT_PASSWORD: $SQLROOTPASS
        MYSQL_DATABASE: wordpress
