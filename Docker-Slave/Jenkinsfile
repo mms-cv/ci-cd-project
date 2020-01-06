@@ -1,18 +1,22 @@
 node('TestMachine-ut') {
-    stage('Updating Slave Container'){
-        sh 'apt-get update ; apt-get install git'
-    }
-    stage('logging into harbor'){
-        sh 'echo "10.0.0.145    harbor.this" >> /etc/hosts'
-        sh 'ping -c 1 harbor.this'
-    }
-    stage ('Fetching Docker-Compose File') {
-        sh 'mkdir wordpress ; cd wordpress ; wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
-    }
-    stage ('Docker Compose UP') {
-        sh 'cd wordpress ; docker-compose up -d'
-    }
-    stage ('Unitesting') {
-        sh 'echo "Building"'
+    withCredentials([usernamePassword(credentialsId: 'harbor-sec', passwordVariable: 'harbor-pssword', usernameVariable: 'harbor-user')]) {
+        // some block
+        stage('Updating Slave Container'){
+            sh 'apt-get update ; apt-get install git'
+        }
+        stage('logging into harbor'){
+            sh 'echo "10.0.0.145    harbor.this" >> /etc/hosts'
+            sh 'ping -c 1 harbor.this'
+            sh 'docker login -u $harbor-user -p $harbor-password harbor.this '
+        }
+        stage ('Fetching Docker-Compose File') {
+            sh 'mkdir wordpress ; cd wordpress ; wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
+        }
+        stage ('Docker Compose UP') {
+            sh 'cd wordpress ; docker-compose up -d'
+        }
+        stage ('Unitesting') {
+            sh 'echo "Building"'
+        }
     }
 }
