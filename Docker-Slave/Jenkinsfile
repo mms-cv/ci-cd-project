@@ -5,21 +5,24 @@ node('TestMachine-ut') {
             sh 'apt-get update ; apt-get install git'
         }
         stage('logging into harbor'){
-
+            withCredentials([usernamePassword(credentialsId: 'harbor-sec', passwordVariable: 'HPASS', usernameVariable: 'HUSER')]) {
                 sh 'echo "10.0.0.145    harbor.this" >> /etc/hosts'
                 sh 'ping -c 1 harbor.this'
                 sh 'echo $HPASS > ~/pass.txt'
                 sh 'cat ~/pass.txt'
                 sh 'docker login -u $HUSER harbor.this --password-stdin < ~/pass.txt'
+            }
         }
         stage ('Fetching Docker-Compose File') {
             sh 'mkdir wordpress ; cd wordpress ; wget https://raw.githubusercontent.com/mms-cv/ci-cd-project/master/docker-compose.yml'
         }
         stage ('Docker Compose UP') {
-            sh 'cd wordpress ; docker-compose up -d'
+            withCredentials([string(credentialsId: 'SQLROOTPASS', variable: 'SQLROOTPASS'), string(credentialsId: 'SQLROOTPASS', variable: 'SQLPASS')]) {
+                sh 'cd wordpress ; docker-compose up -d'
+            }
         }
         stage ('Unitesting') {
             sh 'echo "Building"'
         }
-    }
+
 }
